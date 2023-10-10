@@ -68,7 +68,7 @@ const initializePassport = () => {
         clientID: "Iv1.cd3ec41d4d47eab3",
         clientSecret: "895aa366a38c5a039486636dc046191765efccda",
         callbackURL: "http://localhost:3001/api/githubcallback",
-        scope: ['user:email'],
+        scope: ["user:email"],
       },
       async (accessToken, refreshToken, profile, done) => {
         console.log(profile);
@@ -79,22 +79,22 @@ const initializePassport = () => {
           if (!user) {
             const newUser = await userModel.create({
               first_name: profile.username,
-              last_name: '',
+              last_name: "",
               age: 27,
-              password: '',
+              password: "",
               email,
             });
 
-          return done(null, newUser);
-        } else {
-          done(null, user);
+            return done(null, newUser);
+          } else {
+            done(null, user);
+          }
+        } catch (error) {
+          done(error);
         }
-      } catch (error) {
-        done(error);
       }
-    }
-  )
-);
+    )
+  );
 
   passport.serializeUser((user, done) => {
     done(null, user._id);
