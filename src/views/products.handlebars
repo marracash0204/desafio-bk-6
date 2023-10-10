@@ -1,0 +1,43 @@
+<form action="/logout" method="post">
+  <button type="submit">Cerrar sesión</button>
+</form>
+
+<form action="/profile" method="get">
+  <button type="submit">Ir al profile</button>
+</form>
+
+
+{{#if (eq rol "admin")}}
+<h1>¡Bienvenido administrador! Estos son los productos disponibles</h1>
+{{else}}
+<h1>¡Hola {{{user.first_name}}} {{{user.last_name}}}
+  ! Estos son los productos disponibles</h1>
+{{/if}}
+
+<ul>
+  {{#each products}}
+  <li>
+    ID: {{this._id}} <br>
+    Title: {{this.title}} <br>
+    Description: {{this.description}} <br>
+    Price: {{this.price}} <br>
+    Code: {{this.code}} <br>
+    Stock: {{this.stock}}
+    <form action="/add-to-cart/{{this._id}}" method="POST">
+      <button type="submit">Agregar al Carrito</button>
+    </form>
+  </li>
+  {{/each}}
+</ul>
+
+{{#if totalPages}}
+<div class="pagination">
+  {{#if (gt currentPage 1)}}
+  <a href="/products?page={{subtract currentPage 1}}" class="page-link">Anterior</a>
+  {{/if}}
+
+  {{#if (lt currentPage totalPages)}}
+  <a href="/products?page={{add currentPage 1}}" class="page-link">Siguiente</a>
+  {{/if}}
+</div>
+{{/if}}
